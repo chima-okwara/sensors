@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //*FILE NAME:       ultrasonicSensor.cpp
 //*FILE DESC:       Source file for sensor library.
-//*FILE VERSION:    1.0
+//*FILE VERSION:    1.0.3
 //*FILE AUTHOR:     The Eichen Group
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
