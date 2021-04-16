@@ -1,19 +1,19 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //*FILE NAME:       ultrasonicSensor.cpp
 //*FILE DESC:       Source file for sensor library.
-//*FILE VERSION:    1.0.3
+//*FILE VERSION:    1.0.4
 //*FILE AUTHOR:     The Eichen Group
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
 //*LICENSE:         MIT License.
-//*LAST MODIFIED:   Friday, 16 April 2021 13:38
+//*LAST MODIFIED:   Friday, 16 April 2021 19:10
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
 #include <stdint.h>
 #include <sensors.hpp>
 
 ultrasonicSensor::ultrasonicSensor(const uint8_t &trigPin, const uint8_t &echoPin)
-                                  :EchoPin(echoPin), TrigPin(trigPin)
+                                  :EchoPin{echoPin}, TrigPin{trigPin}
 {
   pinMode(TrigPin, OUTPUT);
   pinMode(EchoPin, INPUT);
@@ -45,6 +45,6 @@ inline float ultrasonicSensor::getDistance_m() const
   digitalWrite(TrigPin, LOW);
   delayMicroseconds(2);
 
-  auto pulseDur = pulseIn(EchoPin, HIGH);
+  auto pulseDur {pulseIn(EchoPin, HIGH)};
   return ((pulseDur*340)/2000000);
 }

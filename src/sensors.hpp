@@ -6,7 +6,7 @@
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
 //*LICENSE:         MIT License.
-//*LAST MODIFIED:   Friday, 16 April 2021 13:38
+//*LAST MODIFIED:   Friday, 16 April 2021 19:10
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Arduino.h>
@@ -16,17 +16,18 @@
 
 
 class irSensor
-
 {
 public:
-  irSensor(const uint8_t &sensorPin);
 	irSensor(const uint8_t &sensorPin, const uint8_t &operationState);
+  irSensor(const uint8_t &sensorPin)
+          :irSensor {sensorPin, LOW}
+  { }
 
   bool detect(void);
   void toggle(uint8_t &outPin);
 
 private:
-	uint8_t SensorPin, OperationState;
+	uint8_t SensorPin {}, OperationState {};
 
 };
 
@@ -34,6 +35,7 @@ class ultrasonicSensor
 {
 public:
   ultrasonicSensor(const uint8_t &trigPin, const uint8_t &echoPin);
+
   bool detect_mm(float &distance);
   bool detect_cm(float &distance);
   bool detect_m(float &distance);
@@ -43,7 +45,7 @@ public:
   inline float getDistance_m(void)const;
 
 private:
-  uint8_t EchoPin, TrigPin, OperationState;
+  uint8_t EchoPin {}, TrigPin {};
 };
 
 #endif
