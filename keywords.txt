@@ -1,0 +1,4 @@
+irSensor	KEYWORD1
+ultrasonicSensor    KEYWORD1
+act	KEYWORD2
+blink KEYWORD2
