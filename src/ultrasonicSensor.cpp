@@ -34,8 +34,10 @@ bool ultrasonicSensor::detect_m(float &distance)
   return ((getDistance_m() >= distance) ? (true) : (false));
 }
 
-float ultrasonicSensor::getDistance_mm() const
+
+inline float ultrasonicSensor::getDistance_m() const
 {
+  //Generate pulse:
   digitalWrite(TrigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(TrigPin, HIGH);
@@ -43,35 +45,6 @@ float ultrasonicSensor::getDistance_mm() const
   digitalWrite(TrigPin, LOW);
   delayMicroseconds(2);
 
-  long pulse = pulseIn(EchoPin, HIGH);
-  float distance = (pulse*340)/2000;
-  return (distance);
-}
-
-float ultrasonicSensor::getDistance_cm() const
-{
-  digitalWrite(TrigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TrigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TrigPin, LOW);
-  delayMicroseconds(2);
-
-  long pulse = pulseIn(EchoPin, HIGH);
-  float distance = (pulse*340)/20000;
-  return (distance);
-}
-
-float ultrasonicSensor::getDistance_m() const
-{
-  digitalWrite(TrigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(TrigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TrigPin, LOW);
-  delayMicroseconds(2);
-
-  long pulse = pulseIn(EchoPin, HIGH);
-  float distance = (pulse*340)/2000000;
-  return (distance);
+  auto pulseDur = pulseIn(EchoPin, HIGH);
+  return ((pulseDur*340)/2000000);
 }

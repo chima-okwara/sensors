@@ -38,9 +38,9 @@ public:
   bool detect_cm(float &distance);
   bool detect_m(float &distance);
 
-  float getDistance_mm(void)const;
-  float getDistance_cm(void)const;
-  float getDistance_m(void)const;
+  inline float getDistance_mm(void)const { return (getDistance_m()*1000); }
+  inline float getDistance_cm(void)const { return (getDistance_m()*100); }
+  inline float getDistance_m(void)const;
 
 private:
   uint8_t EchoPin, TrigPin, OperationState;
