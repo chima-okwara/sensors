@@ -1,8 +1,18 @@
-#Datatypes - KEYWORD1
+#*********************************************
+#*****    Datatypes - KEYWORD1       *********
+#*********************************************
+
 irSensor	        KEYWORD1
 ultrasonicSensor    KEYWORD1
 
-#Methods and Functions - KEYWORD2
+#*********************************************
+#*********************************************
+
+
+#*********************************************
+#****  Methods and Functions - KEYWORD2  *****
+#*********************************************
+
 begin                    KEYWORD2
 detect                   KEYWORD2
 toggle                   KEYWORD2
@@ -12,3 +22,6 @@ detect_mm                KEYWORD2
 getDistance_m            KEYWORD2
 getDistance_cm           KEYWORD2
 getDistance_mm           KEYWORD2
+
+#*********************************************
+#*********************************************
