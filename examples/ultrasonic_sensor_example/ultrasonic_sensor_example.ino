@@ -16,7 +16,7 @@ void setup()
 
 void loop()
 {
-  auto distance = ultra.getDistance_cm();    //Measure distance in centimetres (cm)
+  int distance = ultra.getDistance_cm();    //Measure distance in centimetres (cm)
 
   Serial.print("The distance is: ");
   Serial.println(distance);
