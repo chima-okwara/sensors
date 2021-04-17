@@ -18,7 +18,9 @@
 class irSensor
 {
 public:
-	irSensor(const uint8_t &sensorPin, const uint8_t &operationState);
+	irSensor(const uint8_t &sensorPin, const uint8_t &operationState)
+          :SensorPin {sensorPin}, OperationState {operationState}
+  { }
   irSensor(const uint8_t &sensorPin)
           :irSensor {sensorPin, LOW}
   { }
