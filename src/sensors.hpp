@@ -23,6 +23,8 @@ public:
           :irSensor {sensorPin, LOW}
   { }
 
+  void begin();
+
   bool detect(void);
   void toggle(uint8_t &outPin);
 
@@ -34,15 +36,19 @@ private:
 class ultrasonicSensor
 {
 public:
-  ultrasonicSensor(const uint8_t &trigPin, const uint8_t &echoPin);
+  ultrasonicSensor(const uint8_t &trigPin, const uint8_t &echoPin)
+                :EchoPin {echoPin}, TrigPin {trigPin}
+  { }
 
-  bool detect_mm(float &distance);
-  bool detect_cm(float &distance);
+  void begin();
+
   bool detect_m(float &distance);
+  bool detect_cm(float &distance);
+  bool detect_mm(float &distance);
 
-  inline float getDistance_mm(void)const { return (getDistance_m()*1000); }
-  inline float getDistance_cm(void)const { return (getDistance_m()*100); }
-  inline float getDistance_m(void)const;
+  float getDistance_m(void)const;
+  float getDistance_cm(void)const { return (getDistance_m()*100); }
+  float getDistance_mm(void)const { return (getDistance_m()*1000); }
 
 private:
   uint8_t EchoPin {}, TrigPin {};

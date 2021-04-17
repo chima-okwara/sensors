@@ -13,6 +13,7 @@ float distance = 0.0;
 void setup()
 {
   lcd.begin(16,2);
+  ultra.begin();
 }
 
 void loop()

@@ -15,6 +15,11 @@
 irSensor::irSensor(const uint8_t &sensorPin, const uint8_t &operationState)
                   :SensorPin {sensorPin}, OperationState {operationState}
 {
+
+}
+
+void irSensor::begin()
+{
   pinMode(SensorPin, INPUT);
 }
 

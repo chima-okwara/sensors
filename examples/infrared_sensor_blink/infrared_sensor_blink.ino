@@ -13,6 +13,7 @@ irSensor ir (12, LOW);
 
 void setup()
 {
+  ir.begin()
   pinMode(LED_BUILTIN, OUTPUT);
 }
 

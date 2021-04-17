@@ -12,8 +12,7 @@
 #include <stdint.h>
 #include <sensors.hpp>
 
-ultrasonicSensor::ultrasonicSensor(const uint8_t &trigPin, const uint8_t &echoPin)
-                                  :EchoPin{echoPin}, TrigPin{trigPin}
+void ultrasonicSensor::begin()
 {
   pinMode(TrigPin, OUTPUT);
   pinMode(EchoPin, INPUT);
@@ -35,7 +34,7 @@ bool ultrasonicSensor::detect_m(float &distance)
 }
 
 
-inline float ultrasonicSensor::getDistance_m() const
+float ultrasonicSensor::getDistance_m() const
 {
   //Generate pulse:
   digitalWrite(TrigPin, LOW);
@@ -45,6 +44,6 @@ inline float ultrasonicSensor::getDistance_m() const
   digitalWrite(TrigPin, LOW);
   delayMicroseconds(2);
 
-  auto pulseDur {pulseIn(EchoPin, HIGH)};
+  float pulseDur {pulseIn(EchoPin, HIGH)};
   return ((pulseDur*340)/2000000);
 }
