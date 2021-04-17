@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //*FILE NAME:       irSensor.cpp
 //*FILE DESC:       Source file for sensor library.
-//*FILE VERSION:    1.0.4
+//*FILE VERSION:    1.1
 //*FILE AUTHOR:     The Eichen Group
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
-//*LICENSE:         MIT License.
+//*LICENSE:         Academic Free License.
 //*LAST MODIFIED:   Friday, 16 April 2021 19:10
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
