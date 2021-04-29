@@ -1,21 +1,37 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //*FILE NAME:       ultrasonicSensor.cpp
 //*FILE DESC:       Source file for sensor library.
-//*FILE VERSION:    1.1
+//*FILE VERSION:    2.0
 //*FILE AUTHOR:     The Eichen Group
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
 //*LICENSE:         Academic Free License.
-//*LAST MODIFIED:   Friday, 16 April 2021 19:10
+//*LAST MODIFIED:   Thursday, 29 April 2021 15:29
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
+#include <wiring_private.h>
+#include <pins_arduino.h>
 #include <stdint.h>
 #include <sensors.hpp>
 
 void ultrasonicSensor::begin()
 {
-  pinMode(TrigPin, OUTPUT);
-  pinMode(EchoPin, INPUT);
+  _echoPin.bit = digitalPinToBitMask(_echoPin.pin);
+  _echoPin.port = digitalPinToPort(_echoPin.pin);
+  _echoPin.reg = portModeRegister(_echoPin.port);
+  _echoPin.out = portOutputRegister(_echoPin.port);
+
+  _trigPin.bit = digitalPinToBitMask(_trigPin.pin);
+  _trigPin.port = digitalPinToPort(_trigPin.pin);
+  _trigPin.reg = portModeRegister(_trigPin.port);
+  _trigPin.out = portOutputRegister(_trigPin.port);
+
+  uint8_t oldSREG = SREG;
+  cli();
+  *_echoPin.reg &= ~_echoPin.bit;
+  *_echoPin.out &= ~_echoPin.bit;
+  *_trigPin.reg |= _trigPin.bit;
+  SREG = oldSREG;
 }
 
 bool ultrasonicSensor::detect_mm(float &distance)
@@ -36,14 +52,22 @@ bool ultrasonicSensor::detect_m(float &distance)
 
 float ultrasonicSensor::getDistance_m() const
 {
+  float pulseDur { };
   //Generate pulse:
-  digitalWrite(TrigPin, LOW);
+  *_trigPin.out &= ~_trigPin.bit;
   delayMicroseconds(2);
-  digitalWrite(TrigPin, HIGH);
+  *_trigPin.out |= _trigPin.bit;
   delayMicroseconds(10);
-  digitalWrite(TrigPin, LOW);
+  *_trigPin.out &= ~_trigPin.bit;
   delayMicroseconds(2);
 
-  float pulseDur {pulseIn(EchoPin, HIGH)};
+  uint8_t statemask = (HIGH?_echoPin.bit:0);
+  unsigned long maxloops = microsecondsToClockCycles(1000000L)/16;
+
+  unsigned long width = countPulseASM(portInputRegister(_echoPin.port), _echoPin.bit, statemask, maxloops);
+
+  if(width)
+    pulseDur = clockCyclesToMicroseconds(width*16+16);
+
   return ((pulseDur*340)/2000000);
 }

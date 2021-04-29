@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //*FILE NAME:       irSensor.cpp
 //*FILE DESC:       Source file for sensor library.
-//*FILE VERSION:    1.1
+//*FILE VERSION:    2.0
 //*FILE AUTHOR:     The Eichen Group
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
 //*LICENSE:         Academic Free License.
-//*LAST MODIFIED:   Friday, 16 April 2021 19:10
+//*LAST MODIFIED:   Thursday, 29 April 2021 15:29
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Arduino.h>
 #include <stdint.h>
@@ -14,12 +14,21 @@
 
 void irSensor::begin()
 {
-  pinMode(SensorPin, INPUT);
+  _pin.bit = digitalPinToBitMask(_pin.pin);
+  _pin.port = digitalPinToPort(_pin.pin);
+  _pin.reg = portModeRegister(_pin.port);
+  _pin.out = portOutputRegister(_pin.port);
+  byte oldSREG = SREG;
+  cli();
+  *_pin.reg &= ~_pin.bit;
+  *_pin.out &= ~_pin.bit;
+  SREG = oldSREG;
 }
 
 bool irSensor::detect()
 {
-  return ((digitalRead(SensorPin) == OperationState) ? true : false);
+  return ((*portInputRegister(_pin.port) & (_pin.bit))?true:false);
+
 }
 
 void irSensor::toggle(uint8_t &outPin)

@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //*FILE NAME:       sensors.hpp
 //*FILE DESC:       Header file for sensor library.
-//*FILE VERSION:    1.1
+//*FILE VERSION:    2.0
 //*FILE AUTHOR:     The Eichen Group
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
 //*LICENSE:         Academic Free License.
-//*LAST MODIFIED:   Friday, 16 April 2021 19:10
+//*LAST MODIFIED:   Thursday, 29 April 2021 15:29
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Arduino.h>
@@ -14,16 +14,25 @@
 #ifndef _SENSORS_
 #define _SENSORS_
 
+struct pin
+{
+  uint8_t pin { }, operationState { }, bit { }, port { };
+  volatile uint8_t *reg { }, *out { };
+};
 
 class irSensor
 {
 public:
 	irSensor(const uint8_t &sensorPin, const uint8_t &operationState)
-          :SensorPin {sensorPin}, OperationState {operationState}
-  { }
+  {
+    _pin.pin = sensorPin;
+    _pin.operationState = operationState;
+  }
   irSensor(const uint8_t &sensorPin)
           :irSensor {sensorPin, LOW}
   { }
+
+  irSensor() = default;
 
   void begin();
 
@@ -31,16 +40,18 @@ public:
   void toggle(uint8_t &outPin);
 
 private:
-	uint8_t SensorPin {}, OperationState {};
-
+	pin _pin;
 };
 
 class ultrasonicSensor
 {
 public:
   ultrasonicSensor(const uint8_t &trigPin, const uint8_t &echoPin)
-                :EchoPin {echoPin}, TrigPin {trigPin}
-  { }
+  {
+    _trigPin.pin = trigPin;
+    _echoPin.pin = echoPin;
+  }
+  ultrasonicSensor() = default;
 
   void begin();
 
@@ -53,7 +64,7 @@ public:
   float getDistance_mm(void)const { return (getDistance_m()*1000); }
 
 private:
-  uint8_t EchoPin {}, TrigPin {};
+  pin _echoPin, _trigPin;
 };
 
 #endif
