@@ -1,5 +1,5 @@
 # **SENSORS**
-**VERSION**: { 1.1 }
+**VERSION**: { 2.0 }
 ---
 FOSS library to handle interaction between Arduino and some sensors.
 
