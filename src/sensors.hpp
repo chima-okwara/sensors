@@ -1,12 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //*FILE NAME:       sensors.hpp
 //*FILE DESC:       Header file for sensor library.
-//*FILE VERSION:    2.0
+//*FILE VERSION:    2.1
 //*FILE AUTHOR:     The Eichen Group
 //*CONTRIBUTORS:    Chimaroke Okwara(code),
 //                  Ogunlolu Daniel(creative)
 //*LICENSE:         Academic Free License.
-//*LAST MODIFIED:   Thursday, 29 April 2021 15:29
+//*LAST MODIFIED:   Friday, 30 April 2021 13:15
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Arduino.h>
@@ -18,6 +18,7 @@ struct pin
 {
   uint8_t pin { }, operationState { }, bit { }, port { };
   volatile uint8_t *reg { }, *out { };
+  bool set;
 };
 
 class irSensor
@@ -67,4 +68,20 @@ private:
   pin _echoPin, _trigPin;
 };
 
+class pushButton
+{
+public:
+  pushButton(const uint8_t &pin, const uint8_t &operationState = LOW)
+  {
+    _pin.pin = pin;
+    _pin.operationState = operationState;
+  }
+
+  void init();
+
+  bool pressed();
+
+private:
+  pin _pin;
+};
 #endif
