@@ -10,14 +10,7 @@
 #include <Arduino.h>
 #include "sensors.hpp"
 
-void pushButton::init()
-{
-  uint8_t timer = digitalPinToTimer(_pin.pin);
-  _pin.bit = digitalPinToBitMask(_pin.pin);
-  _pin.port = digitalPinToPort(_pin.pin);
-}
-
 bool pushButton::pressed(void)
 {
-  return ((*portInputRegister(_pin.port) & (_pin.bit)?HIGH:LOW));
+  return ((pin::read()==_operationState)?true:false);
 }

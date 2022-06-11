@@ -52,7 +52,7 @@ bool ultrasonicSensor::detect_m(float &distance)
 
 float ultrasonicSensor::getDistance_m() const
 {
-  float pulseDur { };
+  static float pulseDur { };
   //Generate pulse:
   *_trigPin.out &= ~_trigPin.bit;
   delayMicroseconds(2);

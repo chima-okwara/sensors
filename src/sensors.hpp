@@ -11,10 +11,11 @@
 
 #include <Arduino.h>
 #include <stdint.h>
+#include <pincontrol.hpp>
 #ifndef _SENSORS_
 #define _SENSORS_
 
-struct pin
+struct Pin
 {
   uint8_t pin { }, operationState { }, bit { }, port { };
   volatile uint8_t *reg { }, *out { };
@@ -41,7 +42,7 @@ public:
   void toggle(uint8_t &outPin);
 
 private:
-	pin _pin;
+	Pin _pin;
 };
 
 class ultrasonicSensor
@@ -65,23 +66,22 @@ public:
   float getDistance_mm(void)const { return (getDistance_m()*1000); }
 
 private:
-  pin _echoPin, _trigPin;
+  Pin _echoPin, _trigPin;
 };
 
-class pushButton
+class pushButton: public pin
 {
 public:
-  pushButton(const uint8_t &pin, const uint8_t &operationState = LOW)
+  pushButton(const uint8_t &apin, const uint8_t &operationState = LOW):pin::pin(apin, INPUT), _operationState{operationState}
   {
-    _pin.pin = pin;
-    _pin.operationState = operationState;
+
   }
 
-  void init();
+  void init() { pin::set(); pin::write(HIGH); }
 
   bool pressed();
 
 private:
-  pin _pin;
+  uint8_t _operationState;
 };
 #endif
