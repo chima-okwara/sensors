@@ -1,25 +1,24 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-//*FILE NAME:       irSensor.cpp
-//*FILE DESC:       Source file for sensor library.
-//*FILE VERSION:    2.0
+//*FILE NAME:       sensors.hpp
+//*FILE DESC:       Header file for sensor library.
+//*FILE VERSION:    2.1
 //*FILE AUTHOR:     The Eichen Group
-//*CONTRIBUTORS:    Chimaroke Okwara(code),
-//                  Ogunlolu Daniel(creative)
+//*CONTRIBUTORS:    Chimaroke Okwara
+//                  Ogunlolu Daniel
 //*LICENSE:         Academic Free License.
-//*LAST MODIFIED:   Thursday, 29 April 2021 15:29
+//*LAST MODIFIED:   Saturday, 11 June 2022 12:01
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
 #include <Arduino.h>
 #include <stdint.h>
-#include <sensors.hpp>
+#include <pincontrol.hpp>
 
-
-
-bool irSensor::detect()
+bool lightSensor::detect(uint8_t &state)
 {
-  return ( (read() == _pin.operationState) ? true : false);
+  return ( (read() == state) ? true : false );
 }
 
-void irSensor::toggle(uint8_t &outPin)
+void lightSensor::toggle(uint8_t &outPin)
 {
   uint8_t condition = digitalRead(outPin);
   if(detect())

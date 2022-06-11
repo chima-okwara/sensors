@@ -3,11 +3,14 @@
 //*FILE DESC:       Header file for sensor library.
 //*FILE VERSION:    2.1
 //*FILE AUTHOR:     The Eichen Group
-//*CONTRIBUTORS:    Chimaroke Okwara(code),
-//                  Ogunlolu Daniel(creative)
+//*CONTRIBUTORS:    Chimaroke Okwara
+//                  Ogunlolu Daniel
 //*LICENSE:         Academic Free License.
-//*LAST MODIFIED:   Friday, 30 April 2021 13:15
+//*LAST MODIFIED:   Saturday, 11 June 2022 12:01
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//TODO:
+//Add support for PIR sensors, Touch sensors, Pressure sensors, Moisture sensors.
 
 #include <Arduino.h>
 #include <stdint.h>
@@ -22,21 +25,33 @@ struct Pin
   bool set;
 };
 
-class irSensor
+class lightSensor : public virtual inputPin
 {
 public:
-	irSensor(const uint8_t &sensorPin, const uint8_t &operationState)
+  using inputPin::inputPin;
+  lightSensor() = default;
+  explicit lightSensor(const uint8_t &sensorPin):inputPin(sensorPin), _pin.pin(sensorPin)
   {
-    _pin.pin = sensorPin;
-    _pin.operationState = operationState;
+
   }
-  irSensor(const uint8_t &sensorPin)
-          :irSensor {sensorPin, LOW}
-  { }
 
+  bool detect(uint8_t &state);
+  void toggle(uint8_t &outputPin);
+
+private:
+	Pin _pin;
+};
+
+
+class irSensor : public virtual lightSensor
+{
+public:
+  using lightSensor::lightSensor;
   irSensor() = default;
+	explicit irSensor(const uint8_t &sensorPin, const uint8_t &operationState == LOW):lightSensor(sensorPin), _pin.operationState(operationState)
+  {
 
-  void begin();
+  }
 
   bool detect(void);
   void toggle(uint8_t &outPin);
